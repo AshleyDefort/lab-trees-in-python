@@ -1,242 +1,231 @@
-import sys
+import os
+import random
+import graphviz
 
 class Node:
-  def  __init__(self, data):
-    self.data = data
-    self.parent = None
-    self.left = None
-    self.right = None
-    self.bf = 0
+    def __init__(self, name, data):
+        self.name = name
+        self.data = data
+        self.left = None
+        self.right = None
+        self.height = 1
 
 class AVLTree:
+    def __init__(self):
+        self.root = None
 
-  def __init__(self):
-    self.root = None
+    def insert(self, root, name, data):
+        if not root:
+            return Node(name, data)
+        elif name < root.name:
+            root.left = self.insert(root.left, name, data)
+        else:
+            root.right = self.insert(root.right, name, data)
 
-  def __searchTreeHelper(self, node, key):
-    if node == None or key == node.data:
-      return node
+        root.height = 1 + max(self.get_height(root.left), self.get_height(root.right))
 
-    if key < node.data:
-      return self.__searchTreeHelper(node.left, key)
-    return self.__searchTreeHelper(node.right, key)
+        balance = self.get_balance(root)
 
-  def __deleteNodeHelper(self, node, key):
-    # search the key
-    if node == None: 
-      return node
-    elif key < node.data:
-      node.left = self.__deleteNodeHelper(node.left, key)
-    elif key > node.data: 
-      node.right = self.__deleteNodeHelper(node.right, key)
-    else:
-      # the key has been found, now delete it
+        if balance > 1 and name < root.left.name:
+            return self.right_rotate(root)
+        if balance < -1 and name > root.right.name:
+            return self.left_rotate(root)
+        if balance > 1 and name > root.left.name:
+            root.left = self.left_rotate(root.left)
+            return self.right_rotate(root)
+        if balance < -1 and name < root.right.name:
+            root.right = self.right_rotate(root.right)
+            return self.left_rotate(root)
 
-      # case 1: node is a leaf node
-      if node.left == None and node.right == None:
-        node = None
+        return root
 
-      # case 2: node has only one child
-      elif node.left == None:
-        temp = node
-        node = node.right
+    def delete(self, root, name):
+        if not root:
+            return root
 
-      elif node.right == None:
-        temp = node
-        node = node.left
+        if name < root.name:
+            root.left = self.delete(root.left, name)
+        elif name > root.name:
+            root.right = self.delete(root.right, name)
+        else:
+            if root.left is None:
+                temp = root.right
+                root = None
+                return temp
+            elif root.right is None:
+                temp = root.left
+                root = None
+                return temp
 
-      # case 3: has both children
-      else:
-        temp = minimum(node.right)
-        node.data = temp.data
-        node.right = self.__deleteNodeHelper(node.right, temp.data)
-    return node
+            temp = self.min_value_node(root.right)
+            root.name = temp.name
+            root.right = self.delete(root.right, temp.name)
 
-  # update the balance factor the node
-  def __updateBalance(self, node):
-    if node.bf < -1 or node.bf > 1:
-      self.__rebalance(node)
-      return;
+        if root is None:
+            return root
 
-    if node.parent != None:
-      if node == node.parent.left:
-        node.parent.bf -= 1
+        root.height = 1 + max(self.get_height(root.left), self.get_height(root.right))
 
-      if node == node.parent.right:
-        node.parent.bf += 1
+        balance = self.get_balance(root)
 
-      if node.parent.bf != 0:
-        self.__updateBalance(node.parent)
+        if balance > 1 and self.get_balance(root.left) >= 0:
+            return self.right_rotate(root)
+        if balance < -1 and self.get_balance(root.right) <= 0:
+            return self.left_rotate(root)
+        if balance > 1 and self.get_balance(root.left) < 0:
+            root.left = self.left_rotate(root.left)
+            return self.right_rotate(root)
+        if balance < -1 and self.get_balance(root.right) > 0:
+            root.right = self.right_rotate(root.right)
+            return self.left_rotate(root)
 
-    # rebalance the tree
-  def __rebalance(self, node):
-    if node.bf > 0:
-      if node.right.bf < 0:
-        self.rightRotate(node.right)
-        self.leftRotate(node)
-      else:
-        self.leftRotate(node)
-    elif node.bf < 0:
-      if node.left.bf > 0:
-        self.leftRotate(node.left)
-        self.rightRotate(node)
-      else:
-        rightRotate(node)
+        return root
 
-  def __preOrderHelper(self, node):
-    if node != None:
-      sys.stdout.write(node.data + " ")
-      self.__preOrderHelper(node.left)
-      self.__preOrderHelper(node.right)
+    def search(self, root, name):
+        if not root:
+            return None
+        if root.name == name:
+            return root
+        if root.name < name:
+            return self.search(root.right, name)
+        return self.search(root.left, name)
 
-  def __inOrderHelper(self, node):
-    if node != None:
-      self.__inOrderHelper(node.left)
-      sys.stdout.write(node.data + " ")
-      self.__inOrderHelper(node.right)
+    def search_by_type_and_size_range(self, root, node_list, node_type, size_range):
+        if not root:
+            return
 
-  def __postOrderHelper(self, node):
-    if node != None:
-      self.__postOrderHelper(node.left)
-      self.__postOrderHelper(node.right)
-      std.out.write(node.data + " ")
+        if root.data['type'] == node_type and size_range[0] <= root.data['size'] < size_range[1]:
+            node_list.append(root)
 
-  # Pre-Order traversal
-  # Node->Left Subtree->Right Subtree
-  def preorder(self):
-    self.__preOrderHelper(self.root)
+        self.search_by_type_and_size_range(root.left, node_list, node_type, size_range)
+        self.search_by_type_and_size_range(root.right, node_list, node_type, size_range)
 
-  # In-Order traversal
-  # Left Subtree -> Node -> Right Subtree
-  def __inorder(self):
-    self.__inOrderHelper(self.root)
+    def level_order_traversal(self, root):
+        if not root:
+            return
 
-  # Post-Order traversal
-  # Left Subtree -> Right Subtree -> Node
-  def __postorder(self):
-    self.__postOrderHelper(self.root)
+        queue = []
+        queue.append(root)
 
-  # search the tree for the key k
-  # and return the corresponding node
-  def searchTree(self, k):
-    return self.__searchTreeHelper(self.root, k)
+        while queue:
+            temp_node = queue.pop(0)
+            print(temp_node.name)
+            if temp_node.left:
+                queue.append(temp_node.left)
+            if temp_node.right:
+                queue.append(temp_node.right)
 
-  # find the node with the minimum key
-  def minimum(self, node):
-    while node.left != None:
-      node = node.left
-    return node
+    def get_height(self, root):
+        if not root:
+            return 0
+        return root.height
 
-  # find the node with the maximum key
-  def maximum(self, node):
-    while node.right != None:
-      node = node.right
-    return node
+    def get_balance(self, root):
+        if not root:
+            return 0
+        return self.get_height(root.left) - self.get_height(root.right)
 
-  # find the successor of a given node
-  def successor(self, x):
-    # if the right subtree is not null,
-    # the successor is the leftmost node in the
-    # right subtree
-    if x.right != None:
-      return self.minimum(x.right)
+    def right_rotate(self, z):
+        y = z.left
+        T3 = y.right
 
-    # else it is the lowest ancestor of x whose
-    # left child is also an ancestor of x.
-    y = x.parent
-    while y != None and x == y.right:
-      x = y
-      y = y.parent
-    return y
+        y.right = z
+        z.left = T3
 
-  # find the predecessor of a given node
-  def predecessor(self, x):
-    # if the left subtree is not null,
-    # the predecessor is the rightmost node in the 
-    # left subtree
-    if x.left != None:
-      return self.maximum(x.left)
+        z.height = 1 + max(self.get_height(z.left), self.get_height(z.right))
+        y.height = 1 + max(self.get_height(y.left), self.get_height(y.right))
 
-    y = x.parent
-    while y != None and x == y.left:
-      x = y
-      y = y.parent
-    return y
+        return y
 
-  # rotate left at node x
-  def leftRotate(self, x):
-    y = x.right
-    x.right = y.left
-    if y.left != None:
-      y.left.parent = x
+    def left_rotate(self, z):
+        y = z.right
+        T2 = y.left
 
-    y.parent = x.parent;
-    if x.parent == None:
-      self.root = y
-    elif x == x.parent.left:
-      x.parent.left = y
-    else:
-      x.parent.right = y
-    y.left = x
-    x.parent = y
+        y.left = z
+        z.right = T2
 
-    # update the balance factor
-    x.bf = x.bf - 1 - max(0, y.bf)
-    y.bf = y.bf - 1 + min(0, x.bf)
+        z.height = 1 + max(self.get_height(z.left), self.get_height(z.right))
+        y.height = 1 + max(self.get_height(y.left), self.get_height(y.right))
 
-  # rotate right at node x
-  def rightRotate(self, x):
-    y = x.left
-    x.left = y.right;
-    if y.right != None:
-      y.right.parent = x
-    
-    y.parent = x.parent;
-    if x.parent == None:
-      self.root = y
-    elif x == x.parent.right:
-      x.parent.right = y
-    else:
-      x.parent.left = y
-    
-    y.right = x
-    x.parent = y
+        return y
 
-    # update the balance factor
-    x.bf = x.bf + 1 - min(0, y.bf)
-    y.bf = y.bf + 1 + max(0, x.bf)
+    def min_value_node(self, node):
+        current = node
+        while current.left is not None:
+            current = current.left
+        return current
 
-  # insert the key to the tree in its appropriate position
-  def insert(self, key):
-    # PART 1: Ordinary BST insert
-    node =  Node(key)
-    y = None
-    x = self.root
+    def visualize_tree(self, root):
+        if root is None:
+            return
 
-    while x != None:
-      y = x
-      if node.data < x.data:
-        x = x.left
-      else:
-        x = x.right
+        dot = graphviz.Digraph()
+        self._visualize_tree(root, dot)
+        dot.render('avl_tree', format='png', view=True)
 
-    # y is parent of x
-    node.parent = y
-    if y == None:
-      self.root = node
-    elif node.data < y.data:
-      y.left = node
-    else:
-      y.right = node
+    def _visualize_tree(self, root, dot):
+        if root is not None:
+            dot.node(str(root.name), label=str(root.data))
+            if root.left is not None:
+                dot.edge(str(root.name), str(root.left.name))
+                self._visualize_tree(root.left, dot)
+            if root.right is not None:
+                dot.edge(str(root.name), str(root.right.name))
+                self._visualize_tree(root.right, dot)
 
-    # PART 2: re-balance the node if necessary
-    self.__updateBalance(node)
+# Función para cargar los datos del dataset
+def load_random_images(path):
+    dataset = {}
+    all_files = []
+
+    # Obtener una lista de todas las imágenes en todas las carpetas
+    for category in os.listdir(path):
+        category_path = os.path.join(path, category)
+        if os.path.isdir(category_path):
+            files = os.listdir(category_path)
+            all_files.extend([os.path.join(category_path, file) for file in files])
+
+    # Seleccionar aleatoriamente 7 imágenes
+    random_files = random.sample(all_files, min(7, len(all_files)))
+
+    # Agregar las imágenes seleccionadas al dataset
+    for file_path in random_files:
+        category = os.path.basename(os.path.dirname(file_path))
+        file_name = os.path.basename(file_path)
+        size = os.path.getsize(file_path)
+        if category not in dataset:
+            dataset[category] = []
+        dataset[category].append({'name': file_name, 'size': size})
+
+    return dataset
 
 
-  # delete the node from the tree
-  def deleteNode(self, data):
-    return self.__deleteNodeHelper(self.root, data)
+# Cargar dataset
+dataset_path = "data"
+dataset = load_random_images(dataset_path)
 
-  # print the tree structure on the screen
-  def prettyPrint(self):
-    self.__printHelper(self.root, "", True)
+# Construir árbol AVL
+avl_tree = AVLTree()
+for category, files in dataset.items():
+    for file in files:
+        avl_tree.root = avl_tree.insert(avl_tree.root, file['name'], {'name':file['name'], 'type': category, 'size': file['size']})
+
+# Ejemplo de uso de operaciones sobre el árbol
+# Insertar nodo
+avl_tree.root = avl_tree.insert(avl_tree.root, "example.jpg", {'type': 'Flowers', 'size': 1024})
+
+# Eliminar nodo
+avl_tree.root = avl_tree.delete(avl_tree.root, "example.jpg")
+
+# Buscar nodo
+found_node = avl_tree.search(avl_tree.root, "example.jpg")
+
+# Buscar nodos por tipo y rango de tamaño
+nodes_list = []
+avl_tree.search_by_type_and_size_range(avl_tree.root, nodes_list, 'Dogs', (0, 500000))
+
+# Mostrar recorrido por niveles
+avl_tree.level_order_traversal(avl_tree.root)
+
+# Visualizar árbol
+avl_tree.visualize_tree(avl_tree.root)
