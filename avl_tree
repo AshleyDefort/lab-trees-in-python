@@ -1,15 +1,15 @@
 digraph {
-	"bike_353.bmp" [label="bike_353.bmp"]
-	"bike_353.bmp" -> "0165.png"
-	"0165.png" [label="0165.png"]
-	"0165.png" -> "0156.png"
-	"0156.png" [label="0156.png"]
-	"0165.png" -> "bike_261.bmp"
-	"bike_261.bmp" [label="bike_261.bmp"]
-	"bike_353.bmp" -> "cat.112.jpg"
-	"cat.112.jpg" [label="cat.112.jpg"]
-	"cat.112.jpg" -> "carsgraz_136.bmp"
-	"carsgraz_136.bmp" [label="carsgraz_136.bmp"]
-	"cat.112.jpg" -> "cat.69.jpg"
-	"cat.69.jpg" [label="cat.69.jpg"]
+	"dog.102.jpg" [label="dog.102.jpg"]
+	"dog.102.jpg" -> "0134.png"
+	"0134.png" [label="0134.png"]
+	"0134.png" -> "0065.png"
+	"0065.png" [label="0065.png"]
+	"0134.png" -> "carsgraz_173.bmp"
+	"carsgraz_173.bmp" [label="carsgraz_173.bmp"]
+	"dog.102.jpg" -> "dog.73.jpg"
+	"dog.73.jpg" [label="dog.73.jpg"]
+	"dog.73.jpg" -> "dog.115.jpg"
+	"dog.115.jpg" [label="dog.115.jpg"]
+	"dog.73.jpg" -> "dog.86.jpg"
+	"dog.86.jpg" [label="dog.86.jpg"]
 }

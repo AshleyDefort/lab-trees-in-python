@@ -92,17 +92,17 @@ class AVLTree:
           return self.search(root.right, name)
       return self.search(root.left, name)
 
-  def search_by_type_and_size_range(self, root, node_list, node_type, size_range):
+  def filter_nodes(self, root, node_list, node_type, minsize, maxsize):
       if not root:
           return
 
-      if root.data['type'] == node_type and size_range[0] <= root.data['size'] < size_range[1]:
-          node_list.append(root)
+      if root.aditional_data['type'] == node_type and minsize <= root.aditional_data['size'] < maxsize:
+          node_list.append(root.name)
+      
+      self.filter_nodes(root.left, node_list, node_type, minsize, maxsize)
+      self.filter_nodes(root.right, node_list, node_type, minsize, maxsize)
 
-      self.search_by_type_and_size_range(root.left, node_list, node_type, size_range)
-      self.search_by_type_and_size_range(root.right, node_list, node_type, size_range)
-
-  def level_order_traversal(self, root):
+  def level_order_traversal(self, root, node_list):
       if not root:
           return
 
@@ -111,11 +111,13 @@ class AVLTree:
 
       while queue:
           temp_node = queue.pop(0)
-          print(temp_node.name)
+          node_list.append(temp_node.name)
           if temp_node.left:
               queue.append(temp_node.left)
           if temp_node.right:
               queue.append(temp_node.right)
+
+      print(node_list)
 
   def get_height(self, root):
       if not root:
@@ -175,3 +177,41 @@ class AVLTree:
           if root.right is not None:
               dot.edge(str(root.name), str(root.right.name))
               self._visualize_tree(root.right, dot)
+
+  def get_node_level(self, root, name):
+    if not root:
+      return -1
+    if root.name == name:
+      return 0
+    if root.name < name:
+      return 1 + self.get_node_level(root.right, name)
+    return 1 + self.get_node_level(root.left, name)
+      
+  def get_node_parent(self, root, name):
+    if not root:
+      return None
+    if root.left and root.left.name == name:
+      return root.name
+    if root.right and root.right.name == name:
+      return root.name
+    if root.name < name:
+      return self.get_node_parent(root.right, name)
+    return self.get_node_parent(root.left, name)
+
+  def get_node_grandparent(self, root, name):
+      parent_name = self.get_node_parent(root, name)
+      if parent_name:
+        return self.get_node_parent(root, parent_name)
+      return None 
+
+  def get_node_uncle(self, root, name):
+      grandparent_name = self.get_node_grandparent(root, name)
+      parent_name = self.get_node_parent(root, name) 
+      if grandparent_name:
+        grandparent = self.search(root, grandparent_name)
+        if grandparent:
+          if grandparent.left and grandparent.left.name == parent_name:
+            return grandparent.right.name 
+          elif grandparent.right: 
+            return grandparent.left.name 
+      return None
