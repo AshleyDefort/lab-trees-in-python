@@ -27,6 +27,11 @@ class App(ctk.CTk):
     self.menu = Menu(self, self.avl_tree, self)
 
     self.mainloop()
+  
+  def update_tree_traversal(self, avl_tree, root):
+    nodes = avl_tree.level_order_traversal(root)
+    self.menu.traversal_frame.node_list = nodes
+    self.menu.traversal_frame.draw_traversal()
 
   def build_initial_avl_tree(self):
     def load_random_images(path):

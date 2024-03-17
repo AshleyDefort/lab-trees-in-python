@@ -54,6 +54,7 @@ class AddDeleteFrame(ctk.CTkFrame):
         app.avl_tree = avl_tree
         app.avl_tree.root = avl_tree.root
         app.draw_avl_tree(app.avl_tree, app.avl_tree.root)  
+        app.update_tree_traversal(avl_tree, avl_tree.root)
     else:
         messagebox.showerror('Error', f'El nodo con nombre {node_name} no existe en el dataset')
         entry.delete(0, 'end')
@@ -66,14 +67,14 @@ class AddDeleteFrame(ctk.CTkFrame):
         entry.delete(0, 'end')
         return
     avl_tree.delete(avl_tree.root, node_name)
-    nodes = []
-    avl_tree.level_order_traversal(avl_tree.root, nodes)
-    print(nodes)
+    nodes = avl_tree.level_order_traversal(avl_tree.root)
     entry.delete(0, 'end')
     app.avl_tree = avl_tree
     app.avl_tree.root = avl_tree.root
     app.draw_avl_tree(app.avl_tree, app.avl_tree.root)
+    app.update_tree_traversal(avl_tree, avl_tree.root)
     return
+  
   
  
 class FilterFrame(ctk.CTkFrame):
@@ -150,8 +151,7 @@ class TraversalFrame(ctk.CTkFrame):
     self.traversal_panel = None
 
   def draw_traversal(self):
-    level_order_traversal_list = []
-    node_list = self.avl_tree.level_order_traversal(self.avl_tree.root, level_order_traversal_list)
+    level_order_traversal_list = self.avl_tree.level_order_traversal(self.avl_tree.root)
     if self.traversal_panel:
         self.traversal_panel.destroy()
     self.traversal_panel = TraversalPanel(self, node_list=level_order_traversal_list)

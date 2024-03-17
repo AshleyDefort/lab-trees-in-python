@@ -1,15 +1,11 @@
 digraph {
-	"carsgraz_278.bmp" [label="carsgraz_278.bmp"]
-	"carsgraz_278.bmp" -> "bike_238.bmp"
-	"bike_238.bmp" [label="bike_238.bmp"]
-	"bike_238.bmp" -> "bike_087.bmp"
-	"bike_087.bmp" [label="bike_087.bmp"]
-	"bike_238.bmp" -> "bike_303.bmp"
-	"bike_303.bmp" [label="bike_303.bmp"]
-	"carsgraz_278.bmp" -> "carsgraz_383.bmp"
-	"carsgraz_383.bmp" [label="carsgraz_383.bmp"]
-	"carsgraz_383.bmp" -> "carsgraz_333.bmp"
-	"carsgraz_333.bmp" [label="carsgraz_333.bmp"]
-	"carsgraz_383.bmp" -> "rider-144.jpg"
-	"rider-144.jpg" [label="rider-144.jpg"]
+	"carsgraz_235.bmp" [label="carsgraz_235.bmp"]
+	"carsgraz_235.bmp" -> "bike_204.bmp"
+	"bike_204.bmp" [label="bike_204.bmp"]
+	"bike_204.bmp" -> "0062.png"
+	"0062.png" [label="0062.png"]
+	"carsgraz_235.bmp" -> "horse-79.jpg"
+	"horse-79.jpg" [label="horse-79.jpg"]
+	"horse-79.jpg" -> "rider-125.jpg"
+	"rider-125.jpg" [label="rider-125.jpg"]
 }

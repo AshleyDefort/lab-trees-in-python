@@ -111,23 +111,25 @@ class AVLTree:
       self.filter_nodes(root.left, node_list, node_type, minsize, maxsize)
       self.filter_nodes(root.right, node_list, node_type, minsize, maxsize)
 
-  def level_order_traversal(self, root, node_list):
+  def level_order_traversal(self, root):
+        if not root:
+            return []
+
+        result = []
+        height = self.get_height(root)
+        for i in range(1, height + 1):
+            self._level_order_traversal(root, i, result)
+        return result
+
+  def _level_order_traversal(self, root, level, result):
       if not root:
           return
-
-      queue = []
-      queue.append(root)
-
-      while queue:
-          temp_node = queue.pop(0)
-          node_list.append(temp_node.name)
-          if temp_node.left:
-              queue.append(temp_node.left)
-          if temp_node.right:
-              queue.append(temp_node.right)
-
-      print(node_list)
-
+      if level == 1:
+          result.append(root.name)
+      elif level > 1:
+          self._level_order_traversal(root.left, level - 1, result)
+          self._level_order_traversal(root.right, level - 1, result)
+          
   def get_height(self, root):
       if not root:
           return 0
