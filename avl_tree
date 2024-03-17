@@ -1,15 +1,15 @@
 digraph {
-	"dog.102.jpg" [label="dog.102.jpg"]
-	"dog.102.jpg" -> "0134.png"
-	"0134.png" [label="0134.png"]
-	"0134.png" -> "0065.png"
-	"0065.png" [label="0065.png"]
-	"0134.png" -> "carsgraz_173.bmp"
-	"carsgraz_173.bmp" [label="carsgraz_173.bmp"]
-	"dog.102.jpg" -> "dog.73.jpg"
-	"dog.73.jpg" [label="dog.73.jpg"]
-	"dog.73.jpg" -> "dog.115.jpg"
-	"dog.115.jpg" [label="dog.115.jpg"]
-	"dog.73.jpg" -> "dog.86.jpg"
-	"dog.86.jpg" [label="dog.86.jpg"]
+	"carsgraz_278.bmp" [label="carsgraz_278.bmp"]
+	"carsgraz_278.bmp" -> "bike_238.bmp"
+	"bike_238.bmp" [label="bike_238.bmp"]
+	"bike_238.bmp" -> "bike_087.bmp"
+	"bike_087.bmp" [label="bike_087.bmp"]
+	"bike_238.bmp" -> "bike_303.bmp"
+	"bike_303.bmp" [label="bike_303.bmp"]
+	"carsgraz_278.bmp" -> "carsgraz_383.bmp"
+	"carsgraz_383.bmp" [label="carsgraz_383.bmp"]
+	"carsgraz_383.bmp" -> "carsgraz_333.bmp"
+	"carsgraz_333.bmp" [label="carsgraz_333.bmp"]
+	"carsgraz_383.bmp" -> "rider-144.jpg"
+	"rider-144.jpg" [label="rider-144.jpg"]
 }

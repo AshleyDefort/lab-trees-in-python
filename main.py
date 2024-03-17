@@ -22,7 +22,8 @@ class App(ctk.CTk):
     self.avl_tree = self.build_initial_avl_tree()
 
     # Dibujar el árbol AVL inicial
-    self.draw_avl_tree()
+    self.image_widget = ImageWidget(self)
+    self.draw_avl_tree(self.avl_tree, self.avl_tree.root)
     self.menu = Menu(self, self.avl_tree, self)
 
     self.mainloop()
@@ -58,9 +59,8 @@ class App(ctk.CTk):
 
     return avl_tree
 
-  def draw_avl_tree(self):
-    image_path = self.avl_tree.visualize_tree(self.avl_tree.root)
-    self.image_widget = ImageWidget(self)
+  def draw_avl_tree(self,avl_tree, root):
+    image_path = avl_tree.visualize_tree(root)
     if image_path:
       self.image_widget.show_image(image_path)
 

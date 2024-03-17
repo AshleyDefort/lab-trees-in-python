@@ -69,15 +69,6 @@ class InfoPanel(Panel):
     ctk.CTkLabel(self, text="Tío del nodo:", font=ctk.CTkFont(family="Roboto", size=14, weight="bold")).grid(row=4, column=0, padx=4, sticky='w')
     ctk.CTkLabel(self, text=uncle, font=ctk.CTkFont(family="Roboto", size=14)).grid(row=4, column=1, padx=4, sticky='w')
 
-class ClearButtonPanel(Panel):
-  def __init__(self, parent):
-    super().__init__(parent)
-
-    #layout
-    self.rowconfigure(0, weight=1)
-    self.columnconfigure((0,1), weight=1)
-
-    ctk.CTkButton(self, text='Limpiar', font=ctk.CTkFont(family="Roboto", size=14), corner_radius=5).grid(row=0, column=1, padx=4, pady=4, sticky='ew')
 
 class FilteredNodes(Panel):
     def __init__(self, parent, node_list, avl_tree):
@@ -86,23 +77,21 @@ class FilteredNodes(Panel):
       # Layout
       self.rowconfigure((0, 1), weight=1)
       self.columnconfigure((0, 1), weight=1)
-
+      self.info_panel = None
       ctk.CTkLabel(self, text="Escoja uno de los nodos:", font=ctk.CTkFont(family="Roboto", size=14)).grid(row=0, column=0, padx=4, sticky='w')
       node = ctk.CTkOptionMenu(self, values=node_list, font=ctk.CTkFont(family="Roboto", size=14))
       node.grid(row=0, column=1, padx=4, pady=4, sticky='w')
       ctk.CTkButton(self, text='Ver información', font=ctk.CTkFont(family="Roboto", size=14), corner_radius=5, command=lambda: self.view_info(node, avl_tree)).grid(row=1, column=1, padx=4, pady=4, sticky='ew')
 
     def view_info(self, node, avl_tree):
-      for widget in self.winfo_children():
-        if isinstance(widget, InfoPanel):
-          widget.destroy()
-          break
+      if self.info_panel:
+        self.info_panel.destroy()
       parent = avl_tree.get_node_parent(avl_tree.root, node.get())
       grandparent = avl_tree.get_node_grandparent(avl_tree.root, node.get())
       uncle = avl_tree.get_node_uncle(avl_tree.root, node.get())
       nivel = avl_tree.get_node_level(avl_tree.root, node.get())
       balance = avl_tree.get_balance(avl_tree.search(avl_tree.root, node.get()))
-      InfoPanel(self.master, nivel, balance, parent, grandparent, uncle)
+      self.info_panel = InfoPanel(self.master, nivel, balance, parent, grandparent, uncle)
 
 class TraversalPanel(Panel):
   def __init__(self, parent, node_list):
@@ -110,7 +99,15 @@ class TraversalPanel(Panel):
 
     #layout
     self.rowconfigure(0, weight=1)
-    self.columnconfigure((0,1), weight=1)
+    self.columnconfigure((0,1,2,3), weight=1)
 
     ctk.CTkLabel(self, text="Recorrido por Niveles:", font=ctk.CTkFont(family="Roboto", size=14, weight="bold")).grid(row=0, column=0, padx=4, sticky='w')
-    ctk.CTkLabel(self, text=node_list, font=ctk.CTkFont(family="Roboto", size=14)).grid(row=1, column=0, padx=4, sticky='w')
+    node_sublists = [node_list[i:i+3] for i in range(0, len(node_list), 3)]
+    for row_idx, sublist in enumerate(node_sublists, start=1):
+      col_idx = 0
+      for idx, node in enumerate(sublist):
+        ctk.CTkLabel(self, text=node, font=ctk.CTkFont(family="Roboto", size=14)).grid(row=row_idx, column=col_idx, padx=4, sticky='w')
+        if idx < len(sublist) - 1: 
+          col_idx += 1
+          ctk.CTkLabel(self, text="->", font=ctk.CTkFont(family="Roboto", size=14)).grid(row=row_idx, column=col_idx, padx=4, sticky='w')
+          col_idx += 1
