@@ -1,15 +1,15 @@
 digraph {
-	"carsgraz_328.bmp" [label="{'name': 'carsgraz_328.bmp', 'type': 'cars', 'size': 921654}"]
-	"carsgraz_328.bmp" -> "carsgraz_217.bmp"
-	"carsgraz_217.bmp" [label="{'name': 'carsgraz_217.bmp', 'type': 'cars', 'size': 921654}"]
-	"carsgraz_217.bmp" -> "bike_090.bmp"
-	"bike_090.bmp" [label="{'name': 'bike_090.bmp', 'type': 'bike', 'size': 921654}"]
-	"carsgraz_217.bmp" -> "carsgraz_237.bmp"
-	"carsgraz_237.bmp" [label="{'name': 'carsgraz_237.bmp', 'type': 'cars', 'size': 921654}"]
-	"carsgraz_328.bmp" -> "horse-184.jpg"
-	"horse-184.jpg" [label="{'name': 'horse-184.jpg', 'type': 'horses', 'size': 12240}"]
-	"horse-184.jpg" -> "cat.119.jpg"
-	"cat.119.jpg" [label="{'name': 'cat.119.jpg', 'type': 'cats', 'size': 23390}"]
-	"horse-184.jpg" -> "rider-6.jpg"
-	"rider-6.jpg" [label="{'name': 'rider-6.jpg', 'type': 'human', 'size': 31495}"]
+	"bike_353.bmp" [label="bike_353.bmp"]
+	"bike_353.bmp" -> "0165.png"
+	"0165.png" [label="0165.png"]
+	"0165.png" -> "0156.png"
+	"0156.png" [label="0156.png"]
+	"0165.png" -> "bike_261.bmp"
+	"bike_261.bmp" [label="bike_261.bmp"]
+	"bike_353.bmp" -> "cat.112.jpg"
+	"cat.112.jpg" [label="cat.112.jpg"]
+	"cat.112.jpg" -> "carsgraz_136.bmp"
+	"carsgraz_136.bmp" [label="carsgraz_136.bmp"]
+	"cat.112.jpg" -> "cat.69.jpg"
+	"cat.69.jpg" [label="cat.69.jpg"]
 }
