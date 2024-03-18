@@ -1,6 +1,6 @@
 import os
 
-
+# Función para cargar todas las imágenes de un directorio
 def load_all_images(path):
   dataset = {}
   for category in os.listdir(path):
@@ -16,6 +16,7 @@ def load_all_images(path):
         dataset[category_name].append({'name': file, 'size': size, 'type': category_name})
   return dataset
 
+# Función para verificar si un archivo está en el dataset
 def is_file_in_dataset(dataset, file_name):
   for category, files in dataset.items():
     for file_info in files:
@@ -23,6 +24,7 @@ def is_file_in_dataset(dataset, file_name):
         return True
   return False
 
+# Función para obtener los datos de un archivo por su nombre
 def get_file_data_by_name(dataset, filename):
   # Iterar sobre todas las categorías en el dataset
   for category, files_in_category in dataset.items():

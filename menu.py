@@ -44,9 +44,11 @@ class AddDeleteFrame(ctk.CTkFrame):
   def insert_node(self, avl_tree, app, entry):
     dataset = load_all_images('data')
     node_name = entry.get()
+    # Verificar si el nodo ya existe en el árbol
     if avl_tree.search(avl_tree.root, node_name) is not None:
         messagebox.showerror('Error', f'El nodo con nombre {node_name} ya existe en el árbol')
         entry.delete(0, 'end')
+    # Verificar si el nodo existe en el dataset
     elif is_file_in_dataset(dataset, node_name):
         node_data, category = get_file_data_by_name(dataset, node_name)
         avl_tree.insert(avl_tree.root, node_name, node_name, node_data)
@@ -55,6 +57,7 @@ class AddDeleteFrame(ctk.CTkFrame):
         app.avl_tree.root = avl_tree.root
         app.draw_avl_tree(app.avl_tree, app.avl_tree.root)  
         app.update_tree_traversal(avl_tree, avl_tree.root)
+    # Si el nodo no existe en el dataset, mostrar un mensaje de error
     else:
         messagebox.showerror('Error', f'El nodo con nombre {node_name} no existe en el dataset')
         entry.delete(0, 'end')
@@ -62,11 +65,15 @@ class AddDeleteFrame(ctk.CTkFrame):
 
   def delete_node(self, avl_tree, app, entry):
     node_name = entry.get()
+    # Verificar si el nodo existe en el árbol
     if avl_tree.search(avl_tree.root, node_name) is None:
+        # Si el nodo no existe en el árbol, mostrar un mensaje de error
         messagebox.showerror('Error', f'El nodo con nombre {node_name} no existe en el árbol')
         entry.delete(0, 'end')
         return
+    # Si el nodo existe en el árbol, eliminarlo
     avl_tree.delete(avl_tree.root, node_name)
+    # Actualizar la visualización del árbol y el recorrido
     nodes = avl_tree.level_order_traversal(avl_tree.root)
     entry.delete(0, 'end')
     app.avl_tree = avl_tree
