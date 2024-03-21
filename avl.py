@@ -20,6 +20,7 @@ class AVLTree:
 
   #Método para insertar un nodo en el árbol AVL
   def insert(self, root, name, data, aditional_data):
+      print(name)
       if not root:
           #Si el árbol está vacío, se crea un nuevo nodo
           return Node(name, data, aditional_data)

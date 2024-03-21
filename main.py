@@ -18,12 +18,9 @@ class App(ctk.CTk):
     self.columnconfigure(0, weight=4, uniform='a')
     self.columnconfigure(1, weight=6, uniform='a')
 
-    # Construir árbol AVL inicial
-    self.avl_tree = self.build_initial_avl_tree()
-
+    self.avl_tree = AVLTree()
     # Dibujar el árbol AVL inicial
     self.image_widget = ImageWidget(self)
-    self.draw_avl_tree(self.avl_tree, self.avl_tree.root)
     self.menu = Menu(self, self.avl_tree, self)
 
     self.mainloop()
@@ -34,40 +31,6 @@ class App(ctk.CTk):
     self.menu.traversal_frame.node_list = nodes
     self.menu.traversal_frame.draw_traversal()
 
-  # Método para construir el árbol AVL inicial
-  def build_initial_avl_tree(self):
-    def load_random_images(path):
-      dataset = {}
-      all_files = []
-      # Iterar sobre todas las categorías en el dataset
-      for category in os.listdir(path):
-          category_path = os.path.join(path, category)
-          if os.path.isdir(category_path):
-              files = os.listdir(category_path)
-              all_files.extend([os.path.join(category_path, file) for file in files])
-      random_files = random.sample(all_files, min(7, len(all_files)))
-      # Iterar sobre todos los archivos en el dataset
-      for file_path in random_files:
-          category = os.path.basename(os.path.dirname(file_path))
-          file_name = os.path.basename(file_path)
-          size = os.path.getsize(file_path)
-          if category not in dataset:
-              dataset[category] = []
-          dataset[category].append({'name': file_name, 'size': size})
-
-      return dataset
-    dataset_path = "data"
-    dataset = load_random_images(dataset_path)
-    avl_tree = AVLTree()
-    # Iterar sobre todas las categorías en el dataset y añaadir los archivos al árbol AVL
-    for category, files in dataset.items():
-        for file in files:
-            avl_tree.root = avl_tree.insert(avl_tree.root, 
-                                            file['name'],
-                                            file['name'], 
-                                            {'name': file['name'], 'type': category, 'size': file['size']})
-
-    return avl_tree
 
   # Método para dibujar el árbol AVL
   def draw_avl_tree(self,avl_tree, root):

@@ -21,6 +21,7 @@ class Menu(ctk.CTkTabview):
     self.traversal_frame = TraversalFrame(self.tab('Recorridos'), avl_tree, app)
     self.draw_level_order_traversal()
   
+  
   def draw_level_order_traversal(self):
     self.traversal_frame.draw_traversal()
   
@@ -45,16 +46,20 @@ class AddDeleteFrame(ctk.CTkFrame):
     dataset = load_all_images('data')
     node_name = entry.get()
     # Verificar si el nodo ya existe en el árbol
-    if avl_tree.search(avl_tree.root, node_name) is not None:
+    if  avl_tree!=None and avl_tree.search(avl_tree.root, node_name) is not None:
         messagebox.showerror('Error', f'El nodo con nombre {node_name} ya existe en el árbol')
         entry.delete(0, 'end')
     # Verificar si el nodo existe en el dataset
     elif is_file_in_dataset(dataset, node_name):
         node_data, category = get_file_data_by_name(dataset, node_name)
-        avl_tree.insert(avl_tree.root, node_name, node_name, node_data)
+        if avl_tree.root is not None:
+          avl_tree.root = avl_tree.insert(avl_tree.root, node_name, node_name, node_data)
+        else:
+          avl_tree.root =  avl_tree.insert(avl_tree.root, node_name, node_name, node_data)
         entry.delete(0, 'end')
         app.avl_tree = avl_tree
         app.avl_tree.root = avl_tree.root
+        print(avl_tree.root)
         app.draw_avl_tree(app.avl_tree, app.avl_tree.root)  
         app.update_tree_traversal(avl_tree, avl_tree.root)
     # Si el nodo no existe en el dataset, mostrar un mensaje de error
@@ -72,7 +77,7 @@ class AddDeleteFrame(ctk.CTkFrame):
         entry.delete(0, 'end')
         return
     # Si el nodo existe en el árbol, eliminarlo
-    avl_tree.delete(avl_tree.root, node_name)
+    avl_tree.root = avl_tree.delete(avl_tree.root, node_name)
     # Actualizar la visualización del árbol y el recorrido
     nodes = avl_tree.level_order_traversal(avl_tree.root)
     entry.delete(0, 'end')

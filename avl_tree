@@ -1,11 +1,47 @@
 digraph {
-	"carsgraz_235.bmp" [label="carsgraz_235.bmp"]
-	"carsgraz_235.bmp" -> "bike_204.bmp"
-	"bike_204.bmp" [label="bike_204.bmp"]
-	"bike_204.bmp" -> "0062.png"
-	"0062.png" [label="0062.png"]
-	"carsgraz_235.bmp" -> "horse-79.jpg"
-	"horse-79.jpg" [label="horse-79.jpg"]
-	"horse-79.jpg" -> "rider-125.jpg"
+	"carsgraz_354.bmp" [label="carsgraz_354.bmp"]
+	"carsgraz_354.bmp" -> "bike_110.bmp"
+	"bike_110.bmp" [label="bike_110.bmp"]
+	"bike_110.bmp" -> "0177.png"
+	"0177.png" [label="0177.png"]
+	"0177.png" -> "0129.png"
+	"0129.png" [label="0129.png"]
+	"0129.png" -> "0038.png"
+	"0038.png" [label="0038.png"]
+	"0129.png" -> "0130.png"
+	"0130.png" [label="0130.png"]
+	"0177.png" -> "bike_072.bmp"
+	"bike_072.bmp" [label="bike_072.bmp"]
+	"bike_072.bmp" -> "bike_107.bmp"
+	"bike_107.bmp" [label="bike_107.bmp"]
+	"bike_110.bmp" -> "carsgraz_100.bmp"
+	"carsgraz_100.bmp" [label="carsgraz_100.bmp"]
+	"carsgraz_100.bmp" -> "bike_238.bmp"
+	"bike_238.bmp" [label="bike_238.bmp"]
+	"carsgraz_100.bmp" -> "carsgraz_127.bmp"
+	"carsgraz_127.bmp" [label="carsgraz_127.bmp"]
+	"carsgraz_354.bmp" -> "dog.73.jpg"
+	"dog.73.jpg" [label="dog.73.jpg"]
+	"dog.73.jpg" -> "dog.165.jpg"
+	"dog.165.jpg" [label="dog.165.jpg"]
+	"dog.165.jpg" -> "cat.153.jpg"
+	"cat.153.jpg" [label="cat.153.jpg"]
+	"cat.153.jpg" -> "cat.100.jpg"
+	"cat.100.jpg" [label="cat.100.jpg"]
+	"cat.153.jpg" -> "cat.72.jpg"
+	"cat.72.jpg" [label="cat.72.jpg"]
+	"dog.165.jpg" -> "dog.60.jpg"
+	"dog.60.jpg" [label="dog.60.jpg"]
+	"dog.73.jpg" -> "horse-9.jpg"
+	"horse-9.jpg" [label="horse-9.jpg"]
+	"horse-9.jpg" -> "horse-198.jpg"
+	"horse-198.jpg" [label="horse-198.jpg"]
+	"horse-198.jpg" -> "horse-139.jpg"
+	"horse-139.jpg" [label="horse-139.jpg"]
+	"horse-9.jpg" -> "rider-201.jpg"
+	"rider-201.jpg" [label="rider-201.jpg"]
+	"rider-201.jpg" -> "rider-125.jpg"
 	"rider-125.jpg" [label="rider-125.jpg"]
+	"rider-201.jpg" -> "rider-37.jpg"
+	"rider-37.jpg" [label="rider-37.jpg"]
 }
